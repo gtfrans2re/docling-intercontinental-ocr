@@ -129,9 +129,32 @@ surya_ocr data/frn.pdf --output_dir output/surya --images
 ```
 ![French Surya](<assets/Screenshot from 2026-03-26 03-36-44.png>)
 
-To verify the generated outputs:
-# List Docling Markdown results
-ls output/docling/
+---
 
-# List Surya layout detection results
-ls output/surya/
+## To verify the generated outputs:
+
+### Docling Structured Outputs
+The following table tracks the generated Markdown files produced by Docling for each language in the intercontinental dataset.
+
+| Language | Input File | Docling Output (Markdown) |
+| :--- | :--- | :--- |
+| **Amharic** | `data/amh.pdf` | `output/docling/amh.md` |
+| **Cree** | `data/crm.pdf` | `output/docling/crm.md` |
+| **French** | `data/frn.pdf` | `output/docling/frn.md` |
+| **Hindi** | `data/hnd.pdf` | `output/docling/hnd.md` |
+| **Swahili** | `data/swa.pdf` | `output/docling/swa.md` |
+| **Wolof** | `data/wol.pdf` | `output/docling/wol.md` |
+| **Yoruba** | `data/yor.pdf` | `output/docling/yor.md` |
+| **Zulu** | `data/zuu.pdf` | `output/docling/zuu.md` |
+
+---
+
+### Surya Layout & Detection Outputs
+The following table tracks the vision-based outputs from Surya, including bounding box images and coordinate-based JSON results.
+
+| Language | Output Directory | Key Files Produced |
+| :--- | :--- | :--- |
+| **Amharic** | `output/surya/amh/` | `results.json`, `amh_0_text.png` to `amh_5_text.png` |
+| **Cree** | `output/surya/crm/` | `results.json`, `crm_0_text.png` to `crm_6_text.png` |
+| **French** | `output/surya/frn/` | `results.json`, `frn_0_text.png` to `frn_7_text.png` |
+| **Hindi** | `output/surya/hnd/` | `results.json`, `hnd_0_text.png` to `hnd_4_text.png` |
