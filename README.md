@@ -35,7 +35,7 @@ sudo dnf install -y gcc gcc-c++ python3-devel libjpeg-devel zlib-devel tesseract
 
 installed language packages with Tesserract to match the intercontinental context (North America, Europe, Africa, and Asia):
 ```bash
-# Install the packs for French, Hindi, African languages, and Indigenous scripts
+# Installing  packs for French, Hindi, African languages, and Indigenous scripts
 sudo dnf install -y tesseract-langpack-fra tesseract-langpack-hin \
   tesseract-langpack-swa tesseract-langpack-yor tesseract-langpack-amh \
   tesseract-langpack-zul tesseract-langpack-wol tesseract-langpack-swa \
