@@ -1,14 +1,14 @@
 # Fedora issue #123: Assignment submission document for the _processing multilingual documents_ phase 2 task.
 
-As an Outreachy contributor at the [Fedora project](https://fedoraproject.org/), I completed this assigned task that consisted of using [Docling](https://www.docling.ai/), an open-source optical character recognition (OCR) library, to convert scanned non-English documents (PDFs in my case) into machine-readable and editable digital text. Optionally, I completed the task using another OCR engine called [Surya](https://github.com/datalab-to/surya) with the intent of analyzing and comparing their results through performance and output evaluation.
+As an Outreachy contributor at the [Fedora project](https://fedoraproject.org/), I completed this assigned task that consisted of using [Docling](https://www.docling.ai/), an open-source optical character recognition (OCR) library, to convert scanned non-English documents (PDFs in my case) into machine-readable and editable digital text. Optionally, I completed the task using another OCR engine called [Surya](https://github.com/datalab-to/surya) with the intent of analyzing and comparing its results with those of Docling through performance and output evaluation.
 
 ---
 
 ## Task completion environment setup
 
-I chose a Fedora-powered VM over a local Python virtual environment, firstly because it's Fedora, so I had to use a Fedora Linux server to work. Secondly, I have a 32GB laptop with 2T of storage, so there is enough room to host a Fedora VM on my local Ubuntu to isolate it. The setup was done with multipass canonical CLI VM creator with a downloaded Fedora 43 Cloud Image of x86_64 Intel kernel with 4 CPUs, 8GB RAM, and 50GB Disk.
+I chose a Fedora-powered VM over a local Python virtual environment, firstly because it's Fedora, so I had to use a Fedora Linux server to work. Secondly, I have a 32GB laptop with 2T of storage, so there is enough room to host a Fedora VM on my local Ubuntu to isolate it. The setup was done with [multipass](https://canonical.com/multipass), the canonical CLI VM creator, with a downloaded [Fedora 43 Cloud Image](https://www.fedoraproject.org/cloud/download/) with the following configurations: x86_64 Intel kernel with 4 CPUs, 8GB RAM, and 50GB Disk.
 
-Here is how I did that, and yours may vary based on your choice of environment :
+Here is how I did that, and yours may vary based on your choice of development environment :
 
 ```bash
 multipass launch file:///home/gtfrans2re/Downloads/Fedora-Cloud-Base-Generic-43-1.6.x86_64.qcow2 \
@@ -65,7 +65,7 @@ pip install "docling[ocr]" surya-ocr
 ```
 ![OCR installation](<assets/Screenshot from 2026-03-26 02-55-11.png>)
 
-If you ever face this ERROR: Failed building wheel for _pillow_, installing Python 3.13 fixed it for me. It's a required package that may not be provided 
+If you ever face this ERROR: Failed building wheel for _[pillow](https://cloudinary.com/guides/web-performance/extract-text-from-images-in-python-with-pillow-and-pytesseract)_, installing Python 3.13 fixed it for me. It's a required package that may not be provided 
 by your current running version of Python.
 ```bash
 sudo dnf install python3.13 python3.13-devel
@@ -88,14 +88,14 @@ pip show surya-ocr
 
 3. Displaying the OCR engine version
 
-- For the OCR Engine, which is Tesseract in this case:
+- For the OCR Engine, which is [Tesseract](https://github.com/tesseract-ocr/tesseract) in this case:
 ```bash
 tesseract --version
 ```
 ![OCR Engine version](<assets/Screenshot from 2026-03-26 03-09-20.png>)
 
 4. The Intercontinental Dataset (UDHR)
-For this evaluation, I curated a dataset from the **Universal Declaration of Human Rights (UDHR)** provided by the UN Office of the High Commissioner for Human Rights (OHCHR). These documents were chosen because they contain high-quality scans of complex scripts. All files are stored in the `data/` directory.
+For this evaluation, I curated a dataset from the **[Universal Declaration of Human Rights (UDHR)](https://www.ohchr.org/en/universal-declaration-of-human-rights)** provided by the UN Office of the High Commissioner for Human Rights (OHCHR). These documents were chosen because they contain high-quality scans of complex scripts. All files are stored in the `data/` directory.
 
 | Language | Script Type | Filename in `data/` |
 | :--- | :--- | :--- |
@@ -181,7 +181,7 @@ The selection of **Docling** and **Surya** was intentional to compare two fundam
 
 ---
 
-### ⌨️ CLI & Language Handling Analysis
+### CLI & Language Handling Analysis
 
 A critical part of this study involved analyzing how each tool handles multilingualism via the Command Line Interface.
 
