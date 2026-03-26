@@ -158,3 +158,53 @@ The following table tracks the vision-based outputs from Surya, including boundi
 | **Cree** | `output/surya/crm/` | `results.json`, `crm_0_text.png` to `crm_6_text.png` |
 | **French** | `output/surya/frn/` | `results.json`, `frn_0_text.png` to `frn_7_text.png` |
 | **Hindi** | `output/surya/hnd/` | `results.json`, `hnd_0_text.png` to `hnd_4_text.png` |
+
+---
+
+## Comparative Analysis & Evaluation
+
+### Options and Choices
+The selection of **Docling** and **Surya** was intentional to compare two fundamentally different philosophies in modern OCR:
+* **Docling:** Focuses on document structure and speed, aiming to provide a "RAG-ready" Markdown output quickly.
+* **Surya:** A vision-transformer-based approach that prioritizes high-fidelity layout detection and pixel-perfect text localization.
+
+### Performance & Architecture Comparison
+
+| Feature | Docling | Surya |
+| :--- | :--- | :--- |
+| **Speed** | **Fast:** Processes files in seconds. | **Slower:** Often takes minutes per file. |
+| **Logic** | Direct text/structure detection. | Two-step (Object/Box detection → OCR). |
+| **Resources** | Lightweight; low CPU/RAM overhead. | Heavy; high compute and memory demand. |
+| **Setup** | Fast initial start. | Requires large model downloads (~1.4GB+). |
+
+**Findings:** Docling's architecture is significantly more efficient for high-volume pipelines. As seen in the logs, Docling handles tasks with minimal latency, whereas Surya’s two-step process (detecting bboxes, then recognizing text) makes it "compute-hungry." For instance, Surya required over 4 minutes to recognize 199 text blocks in a single French PDF, whereas Docling performed similar tasks almost instantaneously.
+
+---
+
+### ⌨️ CLI & Language Handling Analysis
+
+A critical part of this study involved analyzing how each tool handles multilingualism via the Command Line Interface.
+
+#### **Docling: Explicit Language Definition**
+Docling requires explicit ISO 639-2 codes to load the correct OCR models.
+* **Command:** `docling --ocr --ocr-lang [lang] --to md --output [path] [file]`
+* **Behavior:** If the language is not specified or the file is missing (e.g., the `iku.pdf` error in my logs), the process aborts.
+* **Dependency:** It relies on the `RapidOCR` and `torch` engines, downloading specific weights for detection and recognition on the first run.
+
+#### **Surya: Vision-First Automation**
+In my tested version of Surya, the CLI options shifted toward automation.
+* **Command:** `surya_ocr [file] --output_dir [path] --images`
+* **Behavior:** While earlier versions used `--langs`, the current implementation (v0.x) often identifies scripts automatically or through positional arguments.
+* **The `--images` Flag:** This is Surya's standout feature. By saving detected bboxes, it provides a visual audit trail of its "thought process," which Docling lacks in its standard CLI output.
+
+---
+
+### Final Evaluation
+For **production RAG pipelines** where speed and cost-to-compute are vital, **Docling** is the clear winner. It produces clean, structured Markdown that is immediately usable by LLMs.
+
+For **archival or complex layout tasks** (e.g., documents with overlapping text, complex Syllabics, or heavy imagery), **Surya** provides superior visual accuracy. Its ability to "see" the page layout through object detection makes it more robust for documents where the text flow is non-standard, despite the significant performance trade-off.
+
+---
+
+### Acknowledgement
+**Google Gemini** served as a technical co-pilot, assisting in structuring the README documentation and troubleshooting environment-specific errors encountered on the Fedora 43 VM.
