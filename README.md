@@ -94,4 +94,44 @@ tesseract --version
 ```
 ![OCR Engine version](<assets/Screenshot from 2026-03-26 03-09-20.png>)
 
-4. 
+4. The Intercontinental Dataset (UDHR)
+For this evaluation, I curated a dataset from the **Universal Declaration of Human Rights (UDHR)** provided by the UN Office of the High Commissioner for Human Rights (OHCHR). These documents were chosen because they contain high-quality scans of complex scripts. All files are stored in the `data/` directory.
+
+| Language | Script Type | Filename in `data/` |
+| :--- | :--- | :--- |
+| **French** | Latin | `frn.pdf` |
+| **Hindi** | Devanagari | `hnd.pdf` |
+| **Swahili** | Latin | `swa.pdf` |
+| **Yoruba** | Latin (Extended) | `yor.pdf` |
+| **Amharic** | Ge'ez | `amh.pdf` |
+| **Zulu** | Latin | `zuu.pdf` |
+| **Wolof** | Latin | `wol.pdf` |
+| **Inuktitut** | Syllabics | `iku.pdf` |
+| **Plains Cree** | Syllabics | `crm.pdf` |
+
+5. OCR Output Directories
+The processed results are organized into separate directories based on the OCR engine used. This allows for a clear side-by-side comparison of the structured Markdown and the layout detection images.
+
+| Engine | Directory Path | Output Type |
+| :--- | :--- | :--- |
+| **Docling** | `output/docling/` | Structured Markdown (`.md`) |
+| **Surya** | `output/surya/` | Layout JSON and Bounding Box Images (`.json`, `.png`) |
+
+- First Docling conversion (same command with next filenames)
+```bash
+docling --ocr --ocr-lang fra --to md --output output/docling data/frn.pdf
+```
+![French Docling](<assets/Screenshot from 2026-03-26 03-31-23.png>)
+
+- First Surya conversion (same command with next filenames)
+```bash
+surya_ocr data/frn.pdf --output_dir output/surya --images
+```
+![French Surya](<assets/Screenshot from 2026-03-26 03-36-44.png>)
+
+To verify the generated outputs:
+# List Docling Markdown results
+ls output/docling/
+
+# List Surya layout detection results
+ls output/surya/
