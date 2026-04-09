@@ -172,7 +172,7 @@ The selection of **Docling** and **Surya** was intentional to compare two fundam
 
 | Feature | Docling | Surya |
 | :--- | :--- | :--- |
-| **Speed** | **Fast:** Processes files in seconds. | **Slower & Heavier on CPU:** Often takes minutes per file. |
+| **Speed** | **Fast:** Processes files in seconds. | **Slower & Heavier on CPU:** takes minutes per file. |
 | **Logic** | Direct text/structure detection. | Two-step (Object/Box detection → OCR). |
 | **Resources** | Lightweight; low CPU/RAM overhead. | Heavy; high compute and memory demand. |
 | **Setup** | Fast initial start. | Requires large model downloads (~1.4GB+). |
