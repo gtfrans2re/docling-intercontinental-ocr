@@ -177,7 +177,7 @@ The selection of **Docling** and **Surya** was intentional to compare two fundam
 | **Resources** | Lightweight; low CPU/RAM overhead. | Heavy; high compute and memory demand. |
 | **Setup** | Fast initial start. | Requires large model downloads (~1.4GB+). |
 
-**Findings:** Docling's architecture is significantly more efficient for high-volume pipelines. As seen in the logs, Docling handles tasks with minimal latency, whereas Surya’s two-step process (detecting bboxes, then recognizing text) makes it "compute-hungry." For instance, Surya required over 4 minutes to recognize 199 text blocks in a single French PDF, whereas Docling performed similar tasks almost instantaneously.
+**Findings:** Docling's architecture is significantly more efficient for high-volume pipelines. As seen in the logs, Docling handles tasks with minimal latency, whereas Surya’s two-step process (detecting bboxes, then recognizing text) makes it "compute-hungry." For instance, Surya required over 4 minutes to recognize 199 text blocks in a single French PDF, whereas Docling performed similar tasks almost instantaneously, but maybe this is due to the execution performed on the CPU and probably might differ properly if run in a compute cluster with GPU capabilities.=
 
 ---
 
