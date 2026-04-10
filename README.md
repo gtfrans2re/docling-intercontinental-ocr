@@ -137,7 +137,7 @@ For this evaluation, I curated a dataset from the **[Universal Declaration of Hu
 | **Amharic** | Ge'ez | `amh.pdf` |
 | **Zulu** | Latin | `zuu.pdf` |
 | **Wolof** | Latin | `wol.pdf` |
-| **Inuktitut** | Syllabics | `esb.pdf` |
+| **Inuktitut** | Syllabics | `iku.pdf` |
 | **Plains Cree** | Syllabics | `crm.pdf` |
 
 5. OCR Output Directories
@@ -259,7 +259,7 @@ A critical part of this study involved analyzing how each tool handles multiling
 #### **Docling: Explicit Language Definition**
 Docling requires explicit ISO 639-2 codes to load the correct OCR models.
 * **Command:** `docling --ocr --ocr-lang [lang] --to md --output [path] [file]`
-* **Behavior:** If the language is not specified or the file is missing (e.g., the `esb.pdf` error in my logs), the process aborts.
+* **Behavior:** If the language is not specified or the file is missing (e.g., the `iku.pdf` error in my logs), the process aborts.
 * **Dependency:** It relies on the `RapidOCR` and `torch` engines, downloading specific weights for detection and recognition on the first run.
 
 #### **Surya: Vision-First Automation**
