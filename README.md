@@ -72,7 +72,7 @@ installed language packages with Tesserract to match the intercontinental contex
 sudo dnf install -y tesseract-langpack-fra tesseract-langpack-hin \
   tesseract-langpack-swa tesseract-langpack-yor tesseract-langpack-amh \
   tesseract-langpack-zul tesseract-langpack-wol tesseract-langpack-swa \
-  tesseract-langpack-cre
+  tesseract-langpack-cre tesseract-langpack-iku
 ```
 This ensured my Fedora VM was ready to get me started on the task.
 
