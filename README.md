@@ -27,7 +27,7 @@ And logged into the Fedora VM:
 ```bash
 multipass shell fedora-om26
 ```
-![Fedora VM Setup](assets/loging_in_fedora_vm_with_multipasss.png)
+![Fedora VM Setup](<assets/loging_in_fedora_vm_with_multipasss.png>)
 
 Updated and installed Base Build tools:
 ```bash
