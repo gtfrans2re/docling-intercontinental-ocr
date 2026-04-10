@@ -6,7 +6,7 @@ As an Outreachy contributor at the [Fedora project](https://fedoraproject.org/),
 
 As an example before getting started, this image demonstrates **Docling** processing the **Universal Declaration of Human Rights (UDHR)** in **Inuktitut (South Baffin)**.
 
-![OCR output](assets/docling_performance_output.jpeg)
+![OCR output](assets/docling_performance_output.png)
 
 *   **Left:** The terminal logs showing the `docling` command execution and the underlying **RapidOCR** engine initializing the necessary model files.
 *   **Top Right:** The original source text written in **Canadian Aboriginal Syllabics**.
