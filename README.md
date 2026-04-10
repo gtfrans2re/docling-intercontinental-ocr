@@ -2,6 +2,16 @@
 
 As an Outreachy contributor at the [Fedora project](https://fedoraproject.org/), I completed this assigned task that consisted of using [Docling](https://www.docling.ai/), an open-source optical character recognition (OCR) library, to convert scanned non-English documents (PDFs in my case) into machine-readable and editable digital text. Optionally, I completed the task using another OCR engine called [Surya](https://github.com/datalab-to/surya) with the intent of analyzing and comparing its results with those of Docling through performance and output evaluation.
 
+## OCR Performance on Non-Latin Scripts
+
+As an example before getting started, this image demonstrates **Docling** processing the **Universal Declaration of Human Rights (UDHR)** in **Inuktitut (South Baffin)**.
+
+![OCR output](assets/docling_performance_output.jpeg)
+
+*   **Left:** The terminal logs showing the `docling` command execution and the underlying **RapidOCR** engine initializing the necessary model files.
+*   **Top Right:** The original source text written in **Canadian Aboriginal Syllabics**.
+*   **Bottom Right:** The resulting **OCR Markdown output**, showing the tool's ability to capture the specific syllabic characters (e.g., ᐃᓄᒃᑎᑐᑦ) from the source.
+
 ---
 
 ## Table of Contents
@@ -127,7 +137,7 @@ For this evaluation, I curated a dataset from the **[Universal Declaration of Hu
 | **Amharic** | Ge'ez | `amh.pdf` |
 | **Zulu** | Latin | `zuu.pdf` |
 | **Wolof** | Latin | `wol.pdf` |
-| **Inuktitut** | Syllabics | `iku.pdf` |
+| **Inuktitut** | Syllabics | `esb.pdf` |
 | **Plains Cree** | Syllabics | `crm.pdf` |
 
 5. OCR Output Directories
@@ -249,7 +259,7 @@ A critical part of this study involved analyzing how each tool handles multiling
 #### **Docling: Explicit Language Definition**
 Docling requires explicit ISO 639-2 codes to load the correct OCR models.
 * **Command:** `docling --ocr --ocr-lang [lang] --to md --output [path] [file]`
-* **Behavior:** If the language is not specified or the file is missing (e.g., the `iku.pdf` error in my logs), the process aborts.
+* **Behavior:** If the language is not specified or the file is missing (e.g., the `esb.pdf` error in my logs), the process aborts.
 * **Dependency:** It relies on the `RapidOCR` and `torch` engines, downloading specific weights for detection and recognition on the first run.
 
 #### **Surya: Vision-First Automation**
