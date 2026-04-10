@@ -4,6 +4,27 @@ As an Outreachy contributor at the [Fedora project](https://fedoraproject.org/),
 
 ---
 
+## Table of Contents
+
+1. [**Environment Setup (Fedora VM)**](#task-completion-environment-setup)
+2. [**The Core Task: Implementation Workflow**](#the-core-task-getting-started-with-docling-and-the-optional-surya-to-perform-task-completion)
+    * [Environment Isolation & Dependencies](#the-core-task-getting-started-with-docling-and-the-optional-surya-to-perform-task-completion)
+    * [Dataset: Intercontinental UDHR](#4-the-intercontinental-dataset-udhr)
+    * [OCR Output Directories](#5-ocr-output-directories)
+3. [**Verification of Generated Outputs**](#to-verify-the-generated-outputs)
+    * [Docling (Structured Markdown)](#docling-structured-outputs)
+    * [Surya (Layout & Detection)](#surya-layout--detection-outputs)
+4. [**Architectural Analysis & Technical Comparison**](#comparative-analysis--evaluation)
+    * [Pipeline vs. Engine Distinction](#architectural-distinction-pipeline-vs-engine)
+    * [Multi-Engine Performance Benchmark (Tesseract vs. Surya vs. Docling)](#multi-engine-performance-benchmark-tesseract-vs-surya-vs-docling)
+    * [The Core Objective: Pipeline Alignment](#the-core-objective-why-pipeline-alignment-matters)
+5. [**CLI & Language Handling Analysis**](#cli--language-handling-analysis)
+6. [**Final Evaluation: Primary Project Deliverable**](#why-markdown-is-the-primary-deliverable)
+    * [Why Markdown is the Primary Deliverable](#why-markdown-is-the-primary-deliverable)
+7. [**Acknowledgements**](#acknowledgement)
+
+---
+
 ## Task completion environment setup
 
 I chose a Fedora-powered VM over a local Python virtual environment, firstly because it's Fedora, so I had to use a Fedora Linux server to work. Secondly, I have a 32GB laptop with 2T of storage, so there is enough room to host a Fedora VM on my local Ubuntu to isolate it. The setup was done with [multipass](https://canonical.com/multipass), the canonical CLI VM creator, with a downloaded [Fedora 43 Cloud Image](https://www.fedoraproject.org/cloud/download/) with the following configurations: x86_64 Intel kernel with 4 CPUs, 8GB RAM, and 50GB Disk.
@@ -177,7 +198,47 @@ The selection of **Docling** and **Surya** was intentional to compare two fundam
 | **Resources** | Lightweight; low CPU/RAM overhead. | Heavy; high compute and memory demand. |
 | **Setup** | Fast initial start. | Requires large model downloads (~1.4GB+). |
 
-**Findings:** Docling's architecture is significantly more efficient for high-volume pipelines. As seen in the logs, Docling handles tasks with minimal latency, whereas Surya’s two-step process (detecting bboxes, then recognizing text) makes it "compute-hungry." For instance, Surya required over 4 minutes to recognize 199 text blocks in a single French PDF, whereas Docling performed similar tasks almost instantaneously, but maybe this is due to the execution performed on the CPU and probably might differ properly if run in a compute cluster with GPU capabilities.=
+**Findings:** Docling's architecture is significantly more efficient for high-volume pipelines. As seen in the logs, Docling handles tasks with minimal latency, whereas Surya’s two-step process (detecting bboxes, then recognizing text) makes it "compute-hungry." For instance, Surya required over 4 minutes to recognize 199 text blocks in a single French PDF, whereas Docling performed similar tasks almost instantaneously, but maybe this is due to the execution performed on the CPU and probably might differ properly if run in a compute cluster with GPU capabilities.
+
+---
+
+### Architectural Distinction: Pipeline vs. Engine
+
+To ensure an accurate evaluation, it is critical to distinguish between the roles these tools play in a document workflow. This distinction clarifies why their performance and outputs differ so significantly:
+
+* **Docling (Document Processing Pipeline):** Docling acts as an **orchestrator**. It manages the full lifecycle of a document—parsing the layout, identifying complex structures like tables, and calling upon various OCR engines (like EasyOCR, RapidOCR, or Tesseract) as sub-components to extract text before finally assembling it into structured Markdown.
+* **Surya (OCR Engine & Layout Detector):** Surya is a specialized **vision-based engine**. It focuses on the high-fidelity detection of text lines and the deep recognition of characters within those lines using vision transformers.
+
+#### **Comparative Technical Analysis**
+
+| Feature | **Docling (Pipeline)** | **Surya (Engine)** |
+| :--- | :--- | :--- |
+| **Architectural Role** | **Orchestrator:** Manages structure, logic, and assembly. | **Vision Specialist:** Detects and recognizes text from pixels. |
+| **Primary Goal** | RAG-ready Markdown (.md) generation. | High-fidelity bounding boxes and text extraction. |
+| **OCR Strategy** | **Pluggable:** Can incorporate and switch between external engines. | **Native:** Uses a proprietary Vision-Transformer model. |
+| **Workflow Path** | Parse → Segment → **Call OCR** → Structural Assembly. | Image Input → Detect Bboxes → **OCR** → Coordinate Mapping. |
+
+**Analysis:** By defining Docling as a pipeline, we recognize its efficiency in handling the *entire* document conversion lifecycle. Surya, acting as an engine, provides superior raw visual detection but requires an external pipeline or significant post-processing to reach the same "RAG-ready" state that Docling provides out of the box.
+
+---
+
+### Multi-Engine Performance Benchmark (Tesseract vs. Surya vs. Docling)
+
+To provide a more balanced evaluation and align with the core objective of a high-efficiency **OCR-to-Markdown pipeline**, I conducted a comparison across three distinct technologies. This highlights the trade-offs between raw engine power and pipeline orchestration.
+
+| Feature | **Tesseract (Legacy Engine)** | **Surya (Vision Engine)** | **Docling (Modern Pipeline)** |
+| :--- | :--- | :--- | :--- |
+| **Logic** | Pattern matching & LSTM. | Vision Transformers. | Orchestrated Multi-Engine. |
+| **Primary Output** | Plain Text / Searchable PDF. | Bboxes / Raw Text. | **Structured Markdown (.md)** |
+| **Speed** | Moderate (CPU-optimized). | Slow (GPU-optimized). | **Fast (Hybrid Optimization).** |
+| **Markdown Accuracy**| Low (Lacks structure). | Low (Requires assembly). | **High (Native Structure).** |
+| **Project Fit** | Basic extraction. | Visual Archiving. | **Production RAG Systems.** |
+
+#### **The Core Objective: Why Pipeline Alignment Matters**
+While raw engines like Tesseract and Surya are powerful, the project's core task is the **OCR-to-Markdown pipeline**. My testing revealed:
+* **Tesseract** is reliable but "blind" to document structure (tables, headers), necessitating significant manual formatting to reach a RAG-ready state.
+* **Surya** is visually superior but "heavy," making it less ideal for the rapid, iterative processing required in the Fedora Packaging Guidelines workflow.
+* **Docling** effectively bridges this gap by functioning as a focused pipeline that can ingest raw scans and output structured Markdown almost instantaneously, aligning perfectly with our objective of creating a high-performance retrieval system.
 
 ---
 
@@ -203,6 +264,23 @@ In my tested version of Surya, the CLI options shifted toward automation.
 For **production RAG pipelines** where speed and cost-to-compute are vital, **Docling** is the clear winner. It produces clean, structured Markdown that is immediately usable by LLMs.
 
 For **archival or complex layout tasks** (e.g., documents with overlapping text, complex Syllabics, or heavy imagery), **Surya** provides superior visual accuracy. Its ability to "see" the page layout through object detection makes it more robust for documents where the text flow is non-standard, despite the significant performance trade-off.
+
+---
+
+### Why Markdown is the Primary Deliverable
+
+While this task explored multiple OCR technologies, **Docling is the primary tool for this project** because it generates high-quality, structured Markdown. This format is the essential foundation for our RAG (Retrieval-Augmented Generation) pipeline for the following reasons:
+
+* **LLM Compatibility:** Markdown preserves headers, tables, and lists in a text-based format that LLMs can parse natively.
+* **RAG Readiness:** It allows for efficient "chunking" of the Fedora RPM Packaging Guidelines, ensuring that the SLM/LLM can retrieve specific sections accurately.
+* **Operational Efficiency:** Docling maintains a low compute overhead, making it a "boring" and reliable utility for automated document processing workflows.
+
+| Feature | **Docling (Primary)** | Surya (Secondary/Exploratory) |
+| :--- | :--- | :--- |
+| **Project Role** | **Core Deliverable** | Supplemental Comparison |
+| **Output Type** | **Structured Markdown (.md)** | Layout JSON & Images |
+| **RAG Readiness** | **High (Standardized)** | Low (Requires Post-processing) |
+| **Speed** | Near-Instantaneous | Slower (CPU-bound) |
 
 ---
 
