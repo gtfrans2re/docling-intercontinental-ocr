@@ -8,8 +8,8 @@ As an example before getting started, this image demonstrates **Docling** proces
 
 ![OCR output](assets/docling_performance_output.png)
 
-*   **Left:** The terminal logs showing the `docling` command execution and the underlying **RapidOCR** engine initializing the necessary model files.
-*   **Top Right:** The original source text written in **Canadian Aboriginal Syllabics**.
+*   **Bottom Left:** The terminal logs showing the `docling` command execution and the underlying **RapidOCR** engine initializing the necessary model files.
+*   **Top:** The original source text written in **Canadian Aboriginal Syllabics**.
 *   **Bottom Right:** The resulting **OCR Markdown output**, showing the tool's ability to capture the specific syllabic characters (e.g., ᐃᓄᒃᑎᑐᑦ) from the source.
 
 ---
