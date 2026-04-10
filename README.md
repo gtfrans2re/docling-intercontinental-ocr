@@ -27,7 +27,7 @@ And logged into the Fedora VM:
 ```bash
 multipass shell fedora-om26
 ```
-![Fedora VM Setup](<assets/Screenshot from 2026-03-26 02-10-35.png>)
+![Fedora VM Setup](assets/loging_in_fedora_vm_with_multipasss.png)
 
 Updated and installed Base Build tools:
 ```bash
@@ -55,7 +55,7 @@ python3 -m venv venv-ocr
 source venv-ocr/bin/activate
 pip install --upgrade pip
 ```
-![Virtual Environment setup](<assets/Screenshot from 2026-03-26 02-51-07.png>)
+![Virtual Environment setup](<assets/creating_ocr_virtual_env_with_python.png>)
 
 Now that the system-level dependencies are there, here is how I performed the following steps:
 
@@ -63,7 +63,7 @@ Now that the system-level dependencies are there, here is how I performed the fo
 ```bash
 pip install "docling[ocr]" surya-ocr
 ```
-![OCR installation](<assets/Screenshot from 2026-03-26 02-55-11.png>)
+![OCR installation](<assets/surya_ocr_installation.png>)
 
 If you ever face this ERROR: Failed building wheel for _[pillow](https://cloudinary.com/guides/web-performance/extract-text-from-images-in-python-with-pillow-and-pytesseract)_, installing Python 3.13 fixed it for me. It's a required package that may not be provided 
 by your current running version of Python.
@@ -78,13 +78,13 @@ This may differ based on your (Linux) OS. Repeat the installation process afterw
 ```bash
 docling --version
 ```
-![Docling version](<assets/Screenshot from 2026-03-26 03-07-09.png>)
+![Docling version](<assets/docling_ocr_version_output.png>)
 
 - Optionally, Surya OCR for the comparison
 ```bash
 pip show surya-ocr
 ```
-![Surya version](<assets/Screenshot from 2026-03-26 03-16-25.png>)
+![Surya version](<assets/surya_ocr_version_output.png>)
 
 3. Displaying the OCR engine version
 
@@ -92,7 +92,7 @@ pip show surya-ocr
 ```bash
 tesseract --version
 ```
-![OCR Engine version](<assets/Screenshot from 2026-03-26 03-09-20.png>)
+![OCR Engine version](<assets/tesseract_ocr_engine_version_output.png>)
 
 4. The Intercontinental Dataset (UDHR)
 For this evaluation, I curated a dataset from the **[Universal Declaration of Human Rights (UDHR)](https://www.ohchr.org/en/universal-declaration-of-human-rights)** provided by the UN Office of the High Commissioner for Human Rights (OHCHR). These documents were chosen because they contain high-quality scans of complex scripts. All files are stored in the `data/` directory.
@@ -121,13 +121,13 @@ The processed results are organized into separate directories based on the OCR e
 ```bash
 docling --ocr --ocr-lang fra --to md --output output/docling data/frn.pdf
 ```
-![French Docling](<assets/Screenshot from 2026-03-26 03-31-23.png>)
+![French Docling](<assets/docling_ocr_running_on_scanned_pdf_to_md.png>)
 
 - First Surya conversion (same command with next filenames)
 ```bash
 surya_ocr data/frn.pdf --output_dir output/surya --images
 ```
-![French Surya](<assets/Screenshot from 2026-03-26 03-36-44.png>)
+![French Surya](<assets/surya_ocr_running_on_scanned_pdf_to_markdown.png>)
 
 ---
 
