@@ -1,16 +1,67 @@
 # Fedora issue #123: Assignment submission document for the _processing multilingual documents_ phase 2 task.
 
-As an Outreachy contributor at the [Fedora project](https://fedoraproject.org/), I completed this assigned task that consisted of using [Docling](https://www.docling.ai/), an open-source optical character recognition (OCR) library, to convert scanned non-English documents (PDFs in my case) into machine-readable and editable digital text. Optionally, I completed the task using another OCR engine called [Surya](https://github.com/datalab-to/surya) with the intent of analyzing and comparing its results with those of Docling through performance and output evaluation.
+As an Outreachy contributor at the [Fedora project](https://fedoraproject.org/), I completed an assigned task using [Docling](https://docling-project.github.io/docling/), an open-source optical character recognition (OCR) library, to convert scanned non-English documents (PDFs in my case) into machine-readable, editable digital text. Optionally, I completed the task using another OCR engine called [Surya](https://github.com/datalab-to/surya) with the intent of analyzing and comparing its results with those of Docling through performance and output evaluation.
 
 ## OCR Performance on Non-Latin Scripts
 
-As an example before getting started, this image demonstrates **Docling** processing the **Universal Declaration of Human Rights (UDHR)** in **Inuktitut (South Baffin)**.
+As an example, before getting started, this image demonstrates **Docling** processing the **Universal Declaration of Human Rights (UDHR)** in **Inuktitut (South Baffin)**.
 
 ![OCR output](assets/docling_performance_output.png)
 
 *   **Bottom Left:** The terminal logs showing the `docling` command execution and the underlying **RapidOCR** engine initializing the necessary model files.
 *   **Top:** The original source text written in **Canadian Aboriginal Syllabics**.
 *   **Bottom Right:** The resulting **OCR Markdown output**, showing the tool's ability to capture the specific syllabic characters (e.g., ᐃᓄᒃᑎᑐᑦ) from the source.
+
+---
+
+## Repository Structure
+
+```
+.
+├── assets/
+│   ├── creating_ocr_virtual_env_with_python.png
+│   ├── docling_ocr_running_on_scanned_pdf_to_md.png
+│   ├── docling_ocr_version_output.png
+│   ├── docling_performance_output.png
+│   ├── loging_in_fedora_vm_with_multipasss.png
+│   ├── surya_ocr_installation.png
+│   ├── surya_ocr_running_on_scanned_pdf_to_markdown.png
+│   ├── surya_ocr_version_output.png
+│   └── tesseract_ocr_engine_version_output.png
+│
+├── data/
+│   ├── amh.pdf
+│   ├── crm.pdf
+│   ├── frn.pdf
+│   ├── hnd.pdf
+│   ├── iku.pdf
+│   ├── swa.pdf
+│   ├── wol.pdf
+│   ├── yor.pdf
+│   └── zuu.pdf
+│
+├── output/
+│   ├── docling/
+│   │   ├── amh.md
+│   │   ├── crm.md
+│   │   ├── frn.md
+│   │   ├── hnd.md
+│   │   ├── iku.md
+│   │   ├── swa.md
+│   │   ├── wol.md
+│   │   ├── yor.md
+│   │   └── zuu.md
+│   │
+│   └── surya/
+│       ├── amh_layout.json
+│       ├── amh_page1.png
+│       ├── frn_layout.json
+│       ├── frn_page1.png
+│       └── ... (remaining Surya output files)
+│
+├── README.md
+└── LICENSE
+```
 
 ---
 
@@ -291,6 +342,19 @@ While this task explored multiple OCR technologies, **Docling is the primary too
 | **Output Type** | **Structured Markdown (.md)** | Layout JSON & Images |
 | **RAG Readiness** | **High (Standardized)** | Low (Requires Post-processing) |
 | **Speed** | Near-Instantaneous | Slower (CPU-bound) |
+
+---
+
+### References
+
+*   **Docling Documentation**: [https://docling-project.github.io/docling/](https://docling-project.github.io/docling/)
+*   **Surya OCR Repository**: [https://github.com/datalab-to/surya](https://github.com/datalab-to/surya)
+*   **Tesseract OCR Engine**: [https://github.com/tesseract-ocr/tesseract](https://github.com/tesseract-ocr/tesseract)
+*   **Fedora Cloud Images**: [https://fedoraproject.org/cloud/download/](https://fedoraproject.org/cloud/download/)
+*   **Multipass VM Manager**: [https://canonical.com/multipass](https://canonical.com/multipass)
+*   **Universal Declaration of Human Rights (UDHR) Dataset**: [https://www.un.org/en/about-us/universal-declaration-of-human-rights](https://www.un.org/en/about-us/universal-declaration-of-human-rights)
+*   **RamaLama Project**: [https://github.com/containers/ramalama](https://github.com/containers/ramalama)
+*   **Python Pillow Library**: [https://pypi.org/project/pillow/](https://pypi.org/project/pillow/)
 
 ---
 
